@@ -109,7 +109,7 @@ export default function AnalyticsCharts() {
         </div>
       </div>
 
-      <div className="glass-card p-6 lg:col-span-3 flex flex-col sm:flex-row justify-between items-stretch gap-8">
+      <div className="glass-card p-6 lg:col-span-3 flex flex-col sm:flex-row justify-between items-stretch gap-6">
         <div className="flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -126,15 +126,15 @@ export default function AnalyticsCharts() {
           <div className="grid grid-cols-3 gap-6 border-t border-slate-200 pt-6">
             <div>
               <span className="text-sm text-slate-500 font-bold block uppercase mb-1.5">Total Grant</span>
-              <span className="text-2xl font-black text-slate-800">₹2.40 Cr</span>
+              <span className="text-lg font-black text-slate-800">₹2.40 Cr</span>
             </div>
             <div>
               <span className="text-sm text-slate-500 font-bold block uppercase mb-1.5">Disbursed</span>
-              <span className="text-2xl font-black text-purple-600">₹1.65 Cr</span>
+              <span className="text-lg font-black text-purple-600">₹1.65 Cr</span>
             </div>
             <div>
               <span className="text-sm text-slate-500 font-bold block uppercase mb-1.5">Remaining</span>
-              <span className="text-2xl font-black text-slate-500">₹75.0 L</span>
+              <span className="text-lg font-black text-slate-500">₹75.0 L</span>
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function AnalyticsCharts() {
               <CheckCircle size={20} className="text-sky-500" />
               Overall Project Completion Rate
             </span>
-            <span className="text-sky-600 text-2xl font-black">72.5%</span>
+            <span className="text-sky-600 text-lg font-black">72.5%</span>
           </div>
 
           <div className="w-full h-5 rounded-full bg-slate-200 overflow-hidden border border-slate-300 shadow-inner">

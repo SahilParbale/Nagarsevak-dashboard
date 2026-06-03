@@ -25,7 +25,7 @@ export default function Header({ activeTab, activeUser, setActiveUser, users, se
   };
 
   return (
-    <header className="glass-header sticky top-0 z-20 h-20 flex items-center justify-between px-8 shadow-sm">
+    <header className="glass-header sticky top-0 z-20 h-20 flex items-center justify-between px-6 shadow-sm">
       {/* Title / Tab Name */}
       <div className="flex flex-col">
         <h1 className="text-xl font-extrabold text-slate-800 tracking-wide">

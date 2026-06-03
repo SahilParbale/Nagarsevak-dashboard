@@ -30,12 +30,12 @@ export default function DiaryWidgets() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-slide-in h-full">
-      <div className="glass-card p-8 lg:col-span-2 flex flex-col h-full">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-slide-in h-full">
+      <div className="glass-card p-6 lg:col-span-2 flex flex-col h-full">
         <div className="flex justify-between items-center border-b border-slate-200 pb-6 mb-8">
           <div className="flex items-center gap-4">
             <div className="p-3.5 rounded-2xl bg-sky-100 text-sky-600 border border-sky-200 shadow-sm">
-              <Calendar size={28} />
+              <Calendar size={20} />
             </div>
             <div>
               <h3 className="text-xl font-extrabold text-slate-800 uppercase tracking-wider">Daily Schedule & Itinerary</h3>
@@ -72,7 +72,7 @@ export default function DiaryWidgets() {
 
                 <div className="flex-1">
                   <h4 className="text-xl font-extrabold text-slate-800 mb-2 group-hover:text-sky-600 transition-colors">{item.title}</h4>
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4">
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4">
                     <div className="flex items-center gap-2.5 text-base text-slate-500 font-medium">{getTypeIcon(item.type)} {item.location}</div>
                     <div className="flex items-center gap-2.5 text-base text-slate-500 font-medium"><Users size={18} /> {item.attendees} expected</div>
                   </div>
@@ -87,7 +87,7 @@ export default function DiaryWidgets() {
         </div>
       </div>
 
-      <div className="glass-card p-8 flex flex-col h-full bg-gradient-to-br from-white to-slate-50">
+      <div className="glass-card p-6 flex flex-col h-full bg-gradient-to-br from-white to-slate-50">
         <div className="flex items-center justify-between mb-8 border-b border-slate-200 pb-5">
           <h3 className="text-xl font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-3">
             <LayoutList size={24} className="text-purple-600" /> Priority Tasks

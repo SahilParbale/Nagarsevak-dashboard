@@ -18,13 +18,13 @@ export default function InvoiceModal({ invoice, onClose }) {
   const formatCurrency = (num) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(num);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center p-6 sm:p-10 bg-slate-900/60 backdrop-blur-md overflow-y-auto print:p-0 print:bg-white print:backdrop-blur-none">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center p-6 sm:p-6 bg-slate-900/60 backdrop-blur-md overflow-y-auto print:p-0 print:bg-white print:backdrop-blur-none">
       
       {/* Invoice Container */}
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative print:w-full print:shadow-none print:rounded-none">
         
         {/* Floating Action Bar (Hidden when printing) */}
-        <div className="sticky top-0 bg-slate-50 border-b border-slate-200 px-8 py-4 flex items-center justify-between rounded-t-2xl z-10 print:hidden">
+        <div className="sticky top-0 bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10 print:hidden">
           <div className="flex items-center gap-3 text-slate-800">
             <FileText size={24} className="text-sky-600" />
             <h2 className="text-xl font-bold">Invoice {invoice.id}</h2>
@@ -41,25 +41,25 @@ export default function InvoiceModal({ invoice, onClose }) {
               onClick={onClose}
               className="p-3 text-slate-400 hover:text-slate-700 hover:bg-slate-200 rounded-xl transition-colors"
             >
-              <X size={28} />
+              <X size={20} />
             </button>
           </div>
         </div>
 
         {/* Invoice Printable Area */}
-        <div className="p-12 print:p-8">
+        <div className="p-12 print:p-6">
           
           {/* Header */}
           <div className="flex justify-between items-start mb-12 border-b-2 border-sky-600 pb-8">
             <div className="flex items-center gap-4 text-sky-900">
               <Building size={48} className="text-sky-600" />
               <div>
-                <h1 className="text-3xl font-black uppercase tracking-widest">Nagarsevak</h1>
+                <h1 className="text-xl font-black uppercase tracking-widest">Nagarsevak</h1>
                 <p className="text-sky-600 font-bold tracking-widest uppercase text-sm mt-1">IT Solutions Pvt Ltd</p>
               </div>
             </div>
             <div className="text-right text-slate-500">
-              <h2 className="text-4xl font-extrabold text-slate-200 uppercase tracking-widest mb-4">Tax Invoice</h2>
+              <h2 className="text-lg font-extrabold text-slate-200 uppercase tracking-widest mb-4">Tax Invoice</h2>
               <p className="font-medium">123 Tech Park, Phase 1</p>
               <p className="font-medium">Mumbai, Maharashtra 400001</p>
               <p className="font-medium mt-1">GSTIN: 27AAAAA0000A1Z5</p>
@@ -71,7 +71,7 @@ export default function InvoiceModal({ invoice, onClose }) {
           <div className="flex justify-between mb-12">
             <div>
               <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Billed To</p>
-              <h3 className="text-2xl font-bold text-slate-900">{invoice.name}</h3>
+              <h3 className="text-lg font-bold text-slate-900">{invoice.name}</h3>
               <p className="text-lg text-slate-600 font-medium mt-1">{invoice.ward}</p>
               <p className="text-lg text-sky-600 font-medium mt-1">{invoice.email}</p>
             </div>
@@ -113,13 +113,13 @@ export default function InvoiceModal({ invoice, onClose }) {
               </thead>
               <tbody className="divide-y divide-slate-100 border-b border-slate-200">
                 <tr className="text-lg">
-                  <td className="py-6 px-6">
+                  <td className="py-4 px-6">
                     <div className="font-bold text-slate-900">Nagarsevak Dashboard - {invoice.plan} Plan</div>
                     <div className="text-slate-500 text-sm mt-1">Monthly Subscription Renewal</div>
                   </td>
-                  <td className="py-6 px-6 text-center font-medium text-slate-700">1</td>
-                  <td className="py-6 px-6 text-right font-medium text-slate-700">{formatCurrency(subtotal)}</td>
-                  <td className="py-6 px-6 text-right font-bold text-slate-900">{formatCurrency(subtotal)}</td>
+                  <td className="py-4 px-6 text-center font-medium text-slate-700">1</td>
+                  <td className="py-4 px-6 text-right font-medium text-slate-700">{formatCurrency(subtotal)}</td>
+                  <td className="py-4 px-6 text-right font-bold text-slate-900">{formatCurrency(subtotal)}</td>
                 </tr>
               </tbody>
             </table>
@@ -136,7 +136,7 @@ export default function InvoiceModal({ invoice, onClose }) {
                 <span className="text-slate-500 font-medium">IGST (18%)</span>
                 <span className="font-bold text-slate-900">{formatCurrency(tax)}</span>
               </div>
-              <div className="flex justify-between py-6 text-2xl">
+              <div className="flex justify-between py-4 text-lg">
                 <span className="text-slate-800 font-black">Total Due</span>
                 <span className="font-black text-sky-600">{formatCurrency(total)}</span>
               </div>

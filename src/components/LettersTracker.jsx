@@ -60,7 +60,7 @@ export default function LettersTracker({ letters, onAddLetter }) {
   };
 
   return (
-    <div className="glass-card p-8 flex flex-col h-full animate-slide-in">
+    <div className="glass-card p-6 flex flex-col h-full animate-slide-in">
       
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-200 pb-6 mb-8">
         <div className="flex bg-slate-100 p-2 rounded-2xl border border-slate-200 shadow-inner">
@@ -127,17 +127,17 @@ export default function LettersTracker({ letters, onAddLetter }) {
 
       {selectedLetter && (
         <div className="fixed inset-0 bg-slate-800/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-card w-full max-w-2xl bg-white border border-slate-200 p-10 rounded-3xl relative shadow-2xl animate-slide-in">
+          <div className="glass-card w-full max-w-2xl bg-white border border-slate-200 p-6 rounded-3xl relative shadow-2xl animate-slide-in">
             <button onClick={() => setSelectedLetter(null)} className="absolute top-6 right-6 p-2 rounded-xl hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"><X size={24} /></button>
             <div className="flex items-center gap-5 mb-8">
-              <div className="p-4 rounded-2xl bg-sky-100 text-sky-600 border border-sky-200 shadow-sm"><Mail size={28} /></div>
+              <div className="p-4 rounded-2xl bg-sky-100 text-sky-600 border border-sky-200 shadow-sm"><Mail size={20} /></div>
               <div>
                 <h4 className="text-xl font-extrabold text-slate-800">Dispatch Details</h4>
                 <p className="text-sm text-slate-500 font-mono font-bold mt-1.5">Ref No: {selectedLetter.refNo}</p>
               </div>
             </div>
             <div className="space-y-8 text-base">
-              <div className="grid grid-cols-2 gap-6 border-y border-slate-200 py-6">
+              <div className="grid grid-cols-2 gap-6 border-y border-slate-200 py-4">
                 <div>
                   <span className="text-sm text-slate-500 uppercase font-extrabold tracking-wide">Date Logged</span>
                   <p className="font-bold text-slate-700 mt-2 text-lg">{selectedLetter.date}</p>
@@ -167,7 +167,7 @@ export default function LettersTracker({ letters, onAddLetter }) {
               </div>
               <div className="flex justify-between items-center pt-6 border-t border-slate-200">
                 <div>{getStatusBadge(selectedLetter.status)}</div>
-                <button onClick={() => setSelectedLetter(null)} className="px-8 py-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-bold shadow-sm cursor-pointer transition-colors text-base">Close</button>
+                <button onClick={() => setSelectedLetter(null)} className="px-6 py-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-bold shadow-sm cursor-pointer transition-colors text-base">Close</button>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function LettersTracker({ letters, onAddLetter }) {
       
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-800/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-card w-full max-w-lg bg-white border border-slate-200 p-8 rounded-3xl relative shadow-2xl animate-slide-in">
+          <div className="glass-card w-full max-w-lg bg-white border border-slate-200 p-6 rounded-3xl relative shadow-2xl animate-slide-in">
             <button onClick={() => setShowAddModal(false)} className="absolute top-6 right-6 p-2 rounded-xl hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"><X size={24} /></button>
             <h4 className="text-xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
               <Mail size={24} className="text-sky-600" /> Log New Correspondence

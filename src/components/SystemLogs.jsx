@@ -1,18 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Search, Activity, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { getLoginLogs, subscribeToLoginLogs } from '../services/logService';
 
-export default function SystemLogs({ logs }) {
+export default function SystemLogs() {
+  const [logs, setLogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let subscription;
+
+    const fetchLogs = async () => {
+      setIsLoading(true);
+      const data = await getLoginLogs();
+      if (data && data.length > 0) {
+        setLogs(data);
+      }
+      setIsLoading(false);
+
+      subscription = subscribeToLoginLogs((payload) => {
+        if (payload.eventType === 'INSERT') {
+          setLogs((prev) => [payload.new, ...prev]);
+        }
+      });
+    };
+
+    fetchLogs();
+
+    return () => {
+      if (subscription) subscription.unsubscribe();
+    };
+  }, []);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   const filteredLogs = logs.filter(log => {
-    const matchesCategory = categoryFilter === 'all' || log.category === categoryFilter;
+    const logCat = log.category || 'auth';
+    const matchesCategory = categoryFilter === 'all' || logCat === categoryFilter;
     const matchesSearch = 
-      log.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.ip.toLowerCase().includes(searchTerm.toLowerCase());
+      (log.description || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (log.user || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (log.ip || '').toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -46,11 +75,11 @@ export default function SystemLogs({ logs }) {
   };
 
   return (
-    <div className="glass-card p-8 flex flex-col h-full animate-slide-in">
+    <div className="glass-card p-6 flex flex-col h-full animate-slide-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-200 pb-6 mb-8">
         <div>
           <h3 className="text-xl font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-3">
-            <ShieldCheck size={28} className="text-sky-600" /> Security & System Audit Trails
+            <ShieldCheck size={20} className="text-sky-600" /> Security & System Audit Trails
           </h3>
           <p className="text-base text-slate-500 font-medium mt-2">Real-time log of administrative logins and automation processes</p>
         </div>
@@ -95,16 +124,16 @@ export default function SystemLogs({ logs }) {
             ) : (
               paginatedLogs.map((log) => (
                 <tr key={log.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="py-5 pr-4 text-slate-500 whitespace-nowrap font-mono">{log.timestamp}</td>
+                  <td className="py-5 pr-4 text-slate-500 whitespace-nowrap font-mono">{new Date(log.timestamp || log.created_at).toLocaleString()}</td>
                   <td className="py-5 px-4 whitespace-nowrap">
-                    <span className={`px-3 py-1.5 rounded-lg text-xs font-extrabold border ${getCategoryColor(log.category)}`}>
-                      {log.category.toUpperCase()}
+                    <span className={`px-3 py-1.5 rounded-lg text-xs font-extrabold border ${getCategoryColor(log.category || 'auth')}`}>
+                      {(log.category || 'auth').toUpperCase()}
                     </span>
                   </td>
-                  <td className="py-5 px-4 text-slate-800 font-bold">{log.user}</td>
-                  <td className="py-5 px-4 text-slate-600 max-w-lg leading-relaxed">{log.description}</td>
-                  <td className="py-5 px-4 font-mono text-slate-500">{log.ip}</td>
-                  <td className="py-5 pl-4 text-right flex justify-end">{getStatusBadge(log.status)}</td>
+                  <td className="py-5 px-4 text-slate-800 font-bold">{log.user || log.username || 'System'}</td>
+                  <td className="py-5 px-4 text-slate-600 max-w-lg leading-relaxed">{log.description || log.action || 'Login Attempt'}</td>
+                  <td className="py-5 px-4 font-mono text-slate-500">{log.ip || 'Unknown'}</td>
+                  <td className="py-5 pl-4 text-right flex justify-end">{getStatusBadge(log.status || 'success')}</td>
                 </tr>
               ))
             )}

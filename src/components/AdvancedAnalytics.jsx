@@ -45,10 +45,10 @@ export default function AdvancedAnalytics() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-slide-in pb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-slide-in pb-8">
       
       {/* 1. Fund Utilization Doughnut */}
-      <div className="glass-card p-8 flex flex-col h-[400px]">
+      <div className="glass-card p-6 flex flex-col h-[400px]">
         <div className="flex items-center gap-3 mb-2">
           <div className="p-3 rounded-xl bg-purple-100 text-purple-600 shadow-sm border border-purple-200"><IndianRupee size={24} /></div>
           <div>
@@ -68,14 +68,14 @@ export default function AdvancedAnalytics() {
           </ResponsiveContainer>
           {/* Inner Label for Doughnut */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pb-8">
-            <span className="text-3xl font-black text-slate-800">165L</span>
+            <span className="text-xl font-black text-slate-800">165L</span>
             <span className="text-sm font-bold text-slate-500 uppercase">Utilized</span>
           </div>
         </div>
       </div>
 
       {/* 2. Sentiment Analysis Trend */}
-      <div className="glass-card p-8 flex flex-col h-[400px]">
+      <div className="glass-card p-6 flex flex-col h-[400px]">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 rounded-xl bg-rose-100 text-rose-600 shadow-sm border border-rose-200"><MessageSquareHeart size={24} /></div>
           <div>
@@ -99,7 +99,7 @@ export default function AdvancedAnalytics() {
       </div>
 
       {/* 3. Citizen Demographics Bar Chart */}
-      <div className="glass-card p-8 flex flex-col h-[400px]">
+      <div className="glass-card p-6 flex flex-col h-[400px]">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 rounded-xl bg-sky-100 text-sky-600 shadow-sm border border-sky-200"><Users size={24} /></div>
           <div>
@@ -121,7 +121,7 @@ export default function AdvancedAnalytics() {
       </div>
 
       {/* 4. Contractor Status Mini-table */}
-      <div className="glass-card p-8 flex flex-col h-[400px]">
+      <div className="glass-card p-6 flex flex-col h-[400px]">
         <div className="mb-6 border-b border-slate-200 pb-4">
           <h3 className="text-xl font-extrabold text-slate-800 uppercase tracking-wider">Contractor Status</h3>
           <p className="text-sm text-slate-500 font-medium mt-1">Active vendor progress & payments</p>

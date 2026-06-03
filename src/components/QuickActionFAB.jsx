@@ -46,7 +46,7 @@ export default function QuickActionFAB({ onAddVisitor, onAddComplaint }) {
             : 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white'
         }`}
       >
-        <Plus size={28} className="transition-transform duration-300" />
+        <Plus size={20} className="transition-transform duration-300" />
       </button>
     </div>
   );

@@ -43,16 +43,16 @@ export default function SuperAdminLayout() {
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 relative z-50">
       
       {/* Sidebar */}
-      <aside className="w-80 bg-sky-900 text-sky-100 flex flex-col border-r border-sky-800 shadow-xl z-20">
-        <div className="h-28 flex items-center px-10 border-b border-sky-800 bg-sky-950">
-          <div className="flex items-center gap-6 text-white">
-            <Building size={40} className="text-sky-300" />
-            <span className="font-bold text-2xl tracking-wide">Owner Portal</span>
+      <aside className="w-64 bg-sky-900 text-sky-100 flex flex-col border-r border-sky-800 shadow-xl z-20">
+        <div className="h-20 flex items-center px-6 border-b border-sky-800 bg-sky-950">
+          <div className="flex items-center gap-3 text-white">
+            <Building size={24} className="text-sky-300" />
+            <span className="font-bold text-lg tracking-wide">Owner Portal</span>
           </div>
         </div>
 
-        <nav className="flex-1 py-10 space-y-4 px-6">
-          <div className="px-4 text-base font-bold text-sky-300/60 uppercase tracking-widest mb-6">Management</div>
+        <nav className="flex-1 py-4 space-y-2 px-4">
+          <div className="px-4 text-xs font-bold text-sky-300/60 uppercase tracking-widest mb-4">Management</div>
           {menuItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -60,13 +60,13 @@ export default function SuperAdminLayout() {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-6 px-6 py-5 rounded-xl text-xl font-medium transition-colors ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive 
                     ? 'bg-sky-800 text-white shadow-inner' 
                     : 'text-sky-200 hover:bg-sky-800 hover:text-white'
                 }`}
               >
-                <Icon size={28} className={isActive ? 'text-sky-300' : 'opacity-80'} />
+                <Icon size={18} className={isActive ? 'text-sky-300' : 'opacity-80'} />
                 {item.label}
               </button>
             );
@@ -77,18 +77,18 @@ export default function SuperAdminLayout() {
       {/* Main Content area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="h-28 bg-white border-b border-slate-200 flex items-center justify-between px-12 shadow-sm">
-          <h1 className="text-4xl font-extrabold text-slate-800">{getPageTitle()}</h1>
-          <div className="flex items-center gap-6">
-            <span className="text-xl font-bold text-slate-500">Super Admin (Owner)</span>
-            <div className="w-16 h-16 bg-sky-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-md">
+        <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 shadow-sm">
+          <h1 className="text-lg font-bold text-slate-800">{getPageTitle()}</h1>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium text-slate-500">Super Admin (Owner)</span>
+            <div className="w-10 h-10 bg-sky-600 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md">
               SA
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-10 overflow-y-auto w-full">
+        <main className="flex-1 p-6 overflow-y-auto w-full">
           {renderContent()}
         </main>
       </div>

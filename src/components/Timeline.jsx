@@ -16,7 +16,7 @@ export default function Timeline({ items, onResolveItem }) {
   };
 
   return (
-    <div className="glass-card p-8 flex flex-col h-full">
+    <div className="glass-card p-6 flex flex-col h-full">
       {/* Header and Filter */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5 mb-6">
         <div>
@@ -49,7 +49,7 @@ export default function Timeline({ items, onResolveItem }) {
 
         {filteredItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-            <RefreshCw size={32} className="animate-spin mb-3 text-slate-400" />
+            <RefreshCw size={24} className="animate-spin mb-3 text-slate-400" />
             <span className="text-sm font-medium">No records matching selected filter</span>
           </div>
         ) : (

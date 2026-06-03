@@ -7,14 +7,14 @@ export default function AIBriefingCard({ userName }) {
 
   return (
     <div className="mb-8 relative overflow-hidden glass-card border-none bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-600 p-[1px] shadow-lg shadow-indigo-200 animate-slide-in">
-      <div className="bg-white/95 backdrop-blur-3xl p-6 sm:p-8 rounded-[15px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative">
+      <div className="bg-white/95 backdrop-blur-3xl p-6 sm:p-6 rounded-[15px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative">
         
         {/* Subtle background glow inside the card */}
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-purple-400/20 rounded-full blur-[50px] pointer-events-none"></div>
 
         <div className="flex items-start md:items-center gap-5 relative z-10">
           <div className="p-3.5 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 text-indigo-600 shadow-inner flex-shrink-0">
-            <Sparkles size={28} className="animate-pulse" />
+            <Sparkles size={20} className="animate-pulse" />
           </div>
           <div>
             <h2 className="text-xl font-black text-slate-800 mb-2 flex items-center gap-2">

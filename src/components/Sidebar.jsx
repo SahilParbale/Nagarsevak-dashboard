@@ -35,10 +35,10 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
       <div className="h-24 flex items-center justify-between px-6 border-b border-slate-200">
         <div className={`flex items-center gap-4 overflow-hidden ${collapsed ? 'justify-center w-full' : ''}`}>
           <div className="p-3 rounded-2xl bg-sky-100 border border-sky-200 text-sky-600 shadow-sm shrink-0">
-            <ShieldAlert size={28} className="animate-pulse" />
+            <ShieldAlert size={20} className="animate-pulse" />
           </div>
           {!collapsed && (
-            <span className="font-black text-2xl bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent tracking-widest whitespace-nowrap">
+            <span className="font-black text-lg bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent tracking-widest whitespace-nowrap">
               NAGARSEVAK
             </span>
           )}
@@ -55,7 +55,7 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 px-4 py-6 space-y-3 overflow-y-auto">
+      <nav className="flex-1 px-4 py-4 space-y-3 overflow-y-auto">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

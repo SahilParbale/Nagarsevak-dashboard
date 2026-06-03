@@ -30,9 +30,14 @@
 }
 
 @layer base {
+  html {
+    font-size: 12px; /* 75% UI Scale: perfectly shrinks the entire layout (margins, padding, widths) to fit without zoom hacks or whitespace */
+    height: 100%;
+  }
   body {
     @apply bg-slate-50 text-slate-800 antialiased overflow-x-hidden;
     font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
   }
 
   /* Custom scrollbar for premium feel */

@@ -97,7 +97,7 @@ export default function StatCards({ stats, onAddVisitor, onAddComplaint, onAddIn
                 <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
                   {card.title}
                 </span>
-                <div className="text-4xl font-black text-slate-800 tracking-tight mt-2 group-hover:scale-105 transition-transform duration-200 origin-left">
+                <div className="text-lg font-black text-slate-800 tracking-tight mt-2 group-hover:scale-105 transition-transform duration-200 origin-left">
                   {card.value.toLocaleString()}
                 </div>
               </div>

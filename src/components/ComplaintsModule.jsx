@@ -55,56 +55,56 @@ export default function ComplaintsModule() {
   };
 
   return (
-    <div className="flex flex-col gap-8 h-full animate-slide-in">
+    <div className="flex flex-col gap-6 h-full animate-slide-in">
       
       {/* High-Level KPI Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div className="glass-card p-6 flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Total Complaints</p>
-            <h3 className="text-3xl font-black text-slate-800">{kpis.total}</h3>
+            <h3 className="text-xl font-black text-slate-800">{kpis.total}</h3>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center shadow-sm">
-            <AlertCircle size={28} />
+          <div className="w-10 h-10 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center shadow-sm">
+            <AlertCircle size={20} />
           </div>
         </div>
 
         <div className="glass-card p-6 flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Pending Resolution</p>
-            <h3 className="text-3xl font-black text-slate-800">{kpis.pending}</h3>
+            <h3 className="text-xl font-black text-slate-800">{kpis.pending}</h3>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center shadow-sm">
-            <Clock size={28} />
+          <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center shadow-sm">
+            <Clock size={20} />
           </div>
         </div>
 
         <div className="glass-card p-6 flex items-center justify-between hover:shadow-md transition-shadow bg-gradient-to-br from-rose-50 to-white border-rose-100">
           <div>
             <p className="text-sm font-bold text-rose-500 uppercase tracking-wider mb-1">Escalated / SLA</p>
-            <h3 className="text-3xl font-black text-rose-700">{kpis.critical}</h3>
+            <h3 className="text-xl font-black text-rose-700">{kpis.critical}</h3>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center shadow-sm animate-pulse">
-            <ShieldAlert size={28} />
+          <div className="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center shadow-sm animate-pulse">
+            <ShieldAlert size={20} />
           </div>
         </div>
 
         <div className="glass-card p-6 flex items-center justify-between hover:shadow-md transition-shadow">
           <div>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Resolved Today</p>
-            <h3 className="text-3xl font-black text-emerald-600">{kpis.resolvedToday}</h3>
+            <h3 className="text-xl font-black text-emerald-600">{kpis.resolvedToday}</h3>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm">
-            <CheckCircle2 size={28} />
+          <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm">
+            <CheckCircle2 size={20} />
           </div>
         </div>
       </div>
 
       {/* Main Split View Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 h-full">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 h-full">
         
         {/* Left Panel: Complaints Data Table */}
-        <div className="glass-card p-8 xl:col-span-2 flex flex-col h-full min-h-[500px]">
+        <div className="glass-card p-6 xl:col-span-2 flex flex-col h-full min-h-[500px]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
             <div className="flex items-center gap-3">
                <div className="p-3 rounded-xl bg-indigo-100 text-indigo-600 shadow-sm">
@@ -202,12 +202,12 @@ export default function ComplaintsModule() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden animate-slide-up border border-slate-200">
             {/* Modal Header */}
-            <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-sky-50 to-white">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-sky-50 to-white">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-sky-100 text-sky-600">
                   <AlertCircle size={24} />
                 </div>
-                <h2 className="text-2xl font-black text-slate-800">Log New Complaint</h2>
+                <h2 className="text-lg font-black text-slate-800">Log New Complaint</h2>
               </div>
               <button 
                 onClick={() => setIsModalOpen(false)}
@@ -218,7 +218,7 @@ export default function ComplaintsModule() {
             </div>
             
             {/* Modal Body */}
-            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 max-h-[70vh] overflow-y-auto">
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[70vh] overflow-y-auto">
               {/* Left Column: Citizen Details */}
               <div className="space-y-6">
                 <h3 className="font-extrabold text-slate-800 uppercase tracking-wider text-sm border-b border-slate-100 pb-2">Citizen Details</h3>
@@ -283,7 +283,7 @@ export default function ComplaintsModule() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+            <div className="px-6 py-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
               <button 
                 onClick={() => setIsModalOpen(false)}
                 className="px-6 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
