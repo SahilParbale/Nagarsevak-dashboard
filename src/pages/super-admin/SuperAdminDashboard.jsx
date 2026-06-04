@@ -44,10 +44,10 @@ export default function SuperAdminDashboard() {
   const totalTickets = ticketData.length;
 
   const stats = [
-    { label: 'Total Customers', value: totalCustomers.toString(), change: 'Live DB Sync', icon: Users, color: 'text-sky-600', bg: 'bg-sky-100' },
-    { label: 'Active (7 Days)', value: activeCustomers.toString(), change: 'Live DB Sync', icon: Activity, color: 'text-green-600', bg: 'bg-green-100' },
-    { label: 'Open Updates', value: '0', change: 'Live DB Sync', icon: Bell, color: 'text-purple-600', bg: 'bg-purple-100' },
-    { label: 'Open Issues', value: totalTickets.toString(), change: 'Live DB Sync', icon: AlertTriangle, color: 'text-red-600', bg: 'bg-red-100' },
+    { label: 'Total Customers', value: totalCustomers.toString(), change: '', icon: Users, color: 'text-sky-600', bg: 'bg-sky-100' },
+    { label: 'Active (7 Days)', value: activeCustomers.toString(), change: '', icon: Activity, color: 'text-green-600', bg: 'bg-green-100' },
+    { label: 'Open Updates', value: '0', change: '', icon: Bell, color: 'text-purple-600', bg: 'bg-purple-100' },
+    { label: 'Open Issues', value: totalTickets.toString(), change: '', icon: AlertTriangle, color: 'text-red-600', bg: 'bg-red-100' },
   ];
 
   // We map the live tenantData to Top Customers. If empty, it'll just map 0 items.
@@ -75,7 +75,7 @@ export default function SuperAdminDashboard() {
                   <Icon size={24} className={stat.color} />
                 </div>
               </div>
-              <p className="text-sm text-slate-500 mt-4">{stat.change}</p>
+              {stat.change && <p className="text-sm text-slate-500 mt-4">{stat.change}</p>}
             </div>
           );
         })}
