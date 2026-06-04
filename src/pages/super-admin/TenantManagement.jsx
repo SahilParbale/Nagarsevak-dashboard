@@ -1,6 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, MoreVertical, Edit, ShieldOff, LogIn, X, ChevronLeft, Building, User, Phone, Mail, Award, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Search, Plus, MoreVertical, Edit, ShieldOff, LogIn, X, ChevronLeft, Building, User, Phone, Mail, Award, CheckCircle2, ShieldAlert, ChevronDown } from 'lucide-react';
 import { getTenants, createTenant, subscribeToTenants } from '../../services/tenantService';
+
+const CustomSelect = ({ value, onChange, options, className }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="relative">
+      <div 
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center justify-between cursor-pointer ${className}`}
+      >
+        <span>{value}</span>
+        <ChevronDown size={16} className={`text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </div>
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)}></div>
+          <div className="absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden py-1 animate-in fade-in slide-in-from-top-2 duration-200">
+            {options.map((opt) => (
+              <div
+                key={opt}
+                onClick={() => {
+                  onChange({ target: { value: opt } });
+                  setIsOpen(false);
+                }}
+                className={`px-4 py-2.5 text-sm cursor-pointer hover:bg-sky-50 transition-colors ${value === opt ? 'bg-sky-50 font-bold text-sky-700' : 'text-slate-700 font-medium'}`}
+              >
+                {opt}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default function TenantManagement() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -213,7 +248,7 @@ export default function TenantManagement() {
                 </div>
                 <div>
                   <p className="text-lg font-bold text-slate-400 uppercase tracking-widest mb-2">Software Version</p>
-                  <p className="text-lg font-extrabold text-slate-900 font-mono">{selectedCustomer.version || 'v1.0.0'}</p>
+                  <p className="text-lg font-extrabold text-slate-900 font-mono">{selectedCustomer.version || selectedCustomer.plan}</p>
                 </div>
               </div>
               <div>
@@ -303,7 +338,7 @@ export default function TenantManagement() {
                   </td>
                   <td className="py-4 px-6">
                     <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-bold text-[11px] font-mono">
-                      {tenant.version || 'v1.0.0'}
+                      {tenant.version || tenant.plan}
                     </span>
                   </td>
                   <td className="py-4 px-6">
@@ -336,107 +371,129 @@ export default function TenantManagement() {
 
       {/* Add Customer Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-              <h3 className="text-lg font-extrabold text-slate-900">Add New Customer</h3>
-              <button onClick={() => setShowAddModal(false)} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">
-                <X size={20} />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden transform transition-all">
+            <div className="px-8 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
+              <div>
+                <h3 className="text-xl font-extrabold text-slate-900">Add New Customer</h3>
+                <p className="text-sm text-slate-500 font-medium mt-1">Fill in the details to create a new tenant workspace.</p>
+              </div>
+              <button onClick={() => setShowAddModal(false)} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors">
+                <X size={24} />
               </button>
             </div>
             
-            <form onSubmit={handleAddTenant} className="p-6 max-h-[75vh] overflow-y-auto">
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                {/* Personal Details */}
-                <div className="col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 border-b pb-1.5">Politician Details</h4>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Full Name</label>
-                  <input type="text" required value={newTenant.name} onChange={e => setNewTenant({...newTenant, name: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. Ramesh Patil" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Political Party</label>
-                  <select value={newTenant.party} onChange={e => setNewTenant({...newTenant, party: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                    <option value="BJP">BJP</option>
-                    <option value="Shiv Sena">Shiv Sena</option>
-                    <option value="NCP">NCP</option>
-                    <option value="Congress">Congress</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
+            <form onSubmit={handleAddTenant} className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
                 
-                {/* Jurisdiction */}
-                <div className="col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 border-b pb-1.5 mt-4">Jurisdiction Info</h4>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Mahanagar Palika</label>
-                  <input type="text" required value={newTenant.mahanagarPalika} onChange={e => setNewTenant({...newTenant, mahanagarPalika: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. BMC" />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
+                {/* LEFT COLUMN */}
+                <div className="space-y-8">
+                  {/* Politician Details */}
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Ward No.</label>
-                    <input type="text" required value={newTenant.ward} onChange={e => setNewTenant({...newTenant, ward: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="42" />
+                    <h4 className="text-xs font-bold text-sky-600 uppercase tracking-widest mb-4 flex items-center gap-2"><User size={14}/> Politician Details</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1.5">Full Name</label>
+                        <input type="text" required value={newTenant.name} onChange={e => setNewTenant({...newTenant, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="e.g. Ramesh Patil" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1.5">Political Party</label>
+                        <CustomSelect 
+                          value={newTenant.party} 
+                          onChange={e => setNewTenant({...newTenant, party: e.target.value})} 
+                          options={['BJP', 'Shiv Sena', 'NCP', 'Congress', 'Other']}
+                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm transition-all font-medium text-slate-800 hover:border-sky-300"
+                        />
+                      </div>
+                    </div>
                   </div>
+                  
+                  {/* Jurisdiction */}
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1.5">Prabhag</label>
-                    <select value={newTenant.prabhag} onChange={e => setNewTenant({...newTenant, prabhag: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                      <option value="C">C</option>
-                      <option value="D">D</option>
-                    </select>
+                    <h4 className="text-xs font-bold text-sky-600 uppercase tracking-widest mb-4 flex items-center gap-2"><Building size={14}/> Jurisdiction Info</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1.5">Mahanagar Palika</label>
+                        <input type="text" required value={newTenant.mahanagarPalika} onChange={e => setNewTenant({...newTenant, mahanagarPalika: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="e.g. BMC" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">Ward No.</label>
+                          <input type="text" required value={newTenant.ward} onChange={e => setNewTenant({...newTenant, ward: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="42" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">Prabhag</label>
+                          <CustomSelect 
+                            value={newTenant.prabhag} 
+                            onChange={e => setNewTenant({...newTenant, prabhag: e.target.value})} 
+                            options={['A', 'B', 'C', 'D']}
+                            className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm transition-all font-medium text-slate-800 hover:border-sky-300"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Subscriptions */}
-                <div className="col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 border-b pb-1.5 mt-4">Subscription & Account</h4>
+                {/* RIGHT COLUMN */}
+                <div className="space-y-8">
+                  {/* Subscriptions */}
+                  <div>
+                    <h4 className="text-xs font-bold text-sky-600 uppercase tracking-widest mb-4 flex items-center gap-2"><Award size={14}/> Subscription & Contact</h4>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">Mobile Number</label>
+                          <input type="tel" required value={newTenant.mobile} onChange={e => setNewTenant({...newTenant, mobile: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="+91 98765 43210" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
+                          <input type="email" required value={newTenant.email} onChange={e => setNewTenant({...newTenant, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="admin@ward42.com" />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">Subscription Plan</label>
+                          <CustomSelect 
+                            value={newTenant.plan} 
+                            onChange={e => setNewTenant({...newTenant, plan: e.target.value})} 
+                            options={['Nagarsevak', 'Amdar', 'Khasdar', 'Minister']}
+                            className="w-full px-4 py-2.5 bg-sky-50 border border-sky-100 rounded-xl text-sm transition-all font-bold text-sky-700 hover:border-sky-300"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-bold text-slate-700 mb-1.5">End Date</label>
+                          <input type="date" required value={newTenant.endDate} onChange={e => setNewTenant({...newTenant, endDate: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Management App Login Credentials */}
+                  <div className="bg-sky-50/50 p-5 rounded-2xl border border-sky-100">
+                    <h4 className="text-xs font-bold text-sky-600 uppercase tracking-widest mb-1 flex items-center gap-2"><ShieldAlert size={14}/> App Login Credentials</h4>
+                    <p className="text-xs text-slate-500 font-medium mb-4">Set the secure login for their Management App.</p>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1.5">Login Email</label>
+                        <input type="email" value={newTenant.loginEmail} onChange={e => setNewTenant({...newTenant, loginEmail: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="admin@ward42.com" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-slate-700 mb-1.5">Account Password</label>
+                        <input type="text" value={newTenant.password} onChange={e => setNewTenant({...newTenant, password: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-medium text-slate-800" placeholder="e.g. Ward42@2026!" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Mobile Number</label>
-                  <input type="tel" required value={newTenant.mobile} onChange={e => setNewTenant({...newTenant, mobile: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="+91 98765 43210" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Email Address</label>
-                  <input type="email" required value={newTenant.email} onChange={e => setNewTenant({...newTenant, email: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="admin@ward42.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Subscription Plan</label>
-                  <select value={newTenant.plan} onChange={e => setNewTenant({...newTenant, plan: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
-                    <option value="Nagarsevak">Nagarsevak</option>
-                    <option value="Amdar">Amdar</option>
-                    <option value="Khasdar">Khasdar</option>
-                    <option value="Minister">Minister</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Subscription End Date</label>
-                  <input type="date" required value={newTenant.endDate} onChange={e => setNewTenant({...newTenant, endDate: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" />
-                </div>
-                
-                {/* Management App Login Credentials */}
-                <div className="col-span-2">
-                  <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 border-b pb-1.5 mt-4">Management App Login</h4>
-                  <p className="text-xs text-slate-500 mb-4">Set the login credentials they will use to access the Nagarsevak Management App.</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Login Email</label>
-                  <input type="email" value={newTenant.loginEmail} onChange={e => setNewTenant({...newTenant, loginEmail: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="admin@ward42.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-1.5">Account Password</label>
-                  <input type="text" value={newTenant.password} onChange={e => setNewTenant({...newTenant, password: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" placeholder="e.g. Ward42@2026!" />
-                </div>
+
               </div>
 
-              <div className="flex justify-end gap-4 pt-4 border-t border-slate-200 sticky bottom-0 bg-white">
-                <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors">
+              <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+                <button type="button" onClick={() => setShowAddModal(false)} className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors">
                   Cancel
                 </button>
-                <button type="submit" className="px-4 py-2 text-sm font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-colors">
-                  Create Customer
+                <button type="submit" className="px-8 py-2.5 text-sm font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl shadow-sm shadow-sky-600/20 transition-all">
+                  Create Customer Workspace
                 </button>
               </div>
             </form>

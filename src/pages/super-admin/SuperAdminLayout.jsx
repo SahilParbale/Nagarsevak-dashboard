@@ -10,11 +10,19 @@ import {
   Headset,
   CreditCard,
   Building,
-  Bell
+  Bell,
+  ArrowLeft
 } from 'lucide-react';
 
-export default function SuperAdminLayout() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+export default function SuperAdminLayout({ onBackToPortal }) {
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem('activeAdminTab') || 'dashboard';
+  });
+
+  const handleSetTab = (tabId) => {
+    setActiveTab(tabId);
+    localStorage.setItem('activeAdminTab', tabId);
+  };
 
   const menuItems = [
     { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
@@ -59,7 +67,7 @@ export default function SuperAdminLayout() {
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => handleSetTab(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive 
                     ? 'bg-sky-800 text-white shadow-inner' 
@@ -72,6 +80,18 @@ export default function SuperAdminLayout() {
             );
           })}
         </nav>
+
+        {onBackToPortal && (
+          <div className="p-4 mt-auto border-t border-sky-800">
+            <button 
+              onClick={onBackToPortal}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-sky-950 text-sky-300 rounded-lg text-sm font-bold hover:bg-sky-900 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={16} />
+              Back to Portal
+            </button>
+          </div>
+        )}
       </aside>
 
       {/* Main Content area */}
