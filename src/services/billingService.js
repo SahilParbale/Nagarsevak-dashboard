@@ -24,3 +24,19 @@ export const subscribeToBillingRecords = (callback) => {
     })
     .subscribe();
 };
+
+export const updateBillingStatus = async (id, status) => {
+  try {
+    const { data, error } = await supabase
+      .from('admin_billing')
+      .update({ status })
+      .eq('id', id)
+      .select();
+      
+    if (error) throw error;
+    return { success: true, data };
+  } catch (err) {
+    console.error('Error updating billing status:', err);
+    return { success: false, error: err };
+  }
+};

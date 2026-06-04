@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CreditCard, Download, Search, Filter, RefreshCw, MessageCircle, TrendingUp, AlertCircle, DollarSign } from 'lucide-react';
 import InvoiceModal from './InvoiceModal';
-import { getBillingRecords, subscribeToBillingRecords } from '../../services/billingService';
+import { getBillingRecords, subscribeToBillingRecords, updateBillingStatus } from '../../services/billingService';
 
 export default function BillingManagement() {
   const [invoices, setInvoices] = useState([]);
@@ -42,6 +42,12 @@ export default function BillingManagement() {
     const text = `Dear ${tenantName}, your subscription is pending renewal. Please complete the payment using this link: https://pay.nagarsevak.in/xyz`;
     navigator.clipboard.writeText(text);
     alert('Payment reminder message copied to clipboard! You can paste it in WhatsApp.');
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    // Optimistic UI update
+    setInvoices(invoices.map(inv => inv.id === id ? { ...inv, status: newStatus } : inv));
+    await updateBillingStatus(id, newStatus);
   };
 
   // Calculate dynamic stats from invoices
@@ -146,13 +152,19 @@ export default function BillingManagement() {
                     <div className="text-slate-400 text-xs mt-0.5">{invoice.plan} Plan</div>
                   </td>
                   <td className="py-4 px-6">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold ${
-                      invoice.status === 'Paid' ? 'bg-green-100 text-green-700' :
-                      invoice.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>
-                      {invoice.status}
-                    </span>
+                    <select 
+                      value={invoice.status}
+                      onChange={(e) => handleStatusChange(invoice.id, e.target.value)}
+                      className={`inline-flex items-center px-2 py-1 rounded text-[11px] font-bold outline-none cursor-pointer border-r-4 border-transparent ${
+                        invoice.status === 'Paid' ? 'bg-green-100 text-green-700' :
+                        invoice.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                        'bg-red-100 text-red-700'
+                      }`}
+                    >
+                      <option value="Paid" className="bg-white text-slate-800">Paid</option>
+                      <option value="Pending" className="bg-white text-slate-800">Pending</option>
+                      <option value="Overdue" className="bg-white text-slate-800">Overdue</option>
+                    </select>
                   </td>
                   <td className="py-4 px-6 text-right">
                     <div className="flex items-center justify-end gap-3 text-slate-400">

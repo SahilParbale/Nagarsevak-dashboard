@@ -39,3 +39,19 @@ export const subscribeToUpdates = (callback) => {
     })
     .subscribe();
 };
+
+export const updateRequestStatus = async (id, status) => {
+  try {
+    const { data, error } = await supabase
+      .from('admin_updates')
+      .update({ status })
+      .eq('id', id)
+      .select();
+      
+    if (error) throw error;
+    return { success: true, data };
+  } catch (err) {
+    console.error('Error updating request status:', err);
+    return { success: false, error: err };
+  }
+};

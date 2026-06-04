@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MessageSquare, CheckCircle, Clock, Zap, FileText } from 'lucide-react';
-import { getUpdates, subscribeToUpdates } from '../../services/updatesService';
+import { getUpdates, subscribeToUpdates, updateRequestStatus } from '../../services/updatesService';
 
 export default function CustomerUpdates() {
   const [requests, setRequests] = useState([]);
@@ -30,6 +30,12 @@ export default function CustomerUpdates() {
       if (subscription) subscription.unsubscribe();
     };
   }, []);
+
+  const handleStatusChange = async (id, newStatus) => {
+    // Optimistic update
+    setRequests(requests.map(r => r.id === id ? { ...r, status: newStatus } : r));
+    await updateRequestStatus(id, newStatus);
+  };
 
   const handleReviewRequest = (req) => {
     alert(`Opening detailed review for: ${req.subject}`);
@@ -83,16 +89,19 @@ export default function CustomerUpdates() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex flex-col gap-1">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold w-max ${
-                        req.status === 'In Progress' ? 'bg-sky-100 text-sky-800' :
-                        req.status === 'Planned' ? 'bg-green-100 text-green-800' :
-                        'bg-amber-100 text-amber-800'
-                      }`}>
-                        {req.status === 'In Progress' && <Zap size={14} className="mr-1" />}
-                        {req.status === 'Planned' && <CheckCircle size={14} className="mr-1" />}
-                        {req.status === 'Under Review' && <Clock size={14} className="mr-1" />}
-                        {req.status}
-                      </span>
+                      <select 
+                        value={req.status}
+                        onChange={(e) => handleStatusChange(req.id, e.target.value)}
+                        className={`inline-flex items-center px-2 py-1 rounded text-[11px] font-bold w-max outline-none cursor-pointer border-r-4 border-transparent ${
+                          req.status === 'In Progress' ? 'bg-sky-100 text-sky-800' :
+                          req.status === 'Planned' ? 'bg-green-100 text-green-800' :
+                          'bg-amber-100 text-amber-800'
+                        }`}
+                      >
+                        <option value="Under Review" className="bg-white text-slate-800">Under Review</option>
+                        <option value="Planned" className="bg-white text-slate-800">Planned</option>
+                        <option value="In Progress" className="bg-white text-slate-800">In Progress</option>
+                      </select>
                       <span className="text-[11px] font-bold text-slate-500 mt-1">Urgency: {req.priority} ({req.votes} Votes)</span>
                     </div>
                   </td>

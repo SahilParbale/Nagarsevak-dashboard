@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MessageSquare, CheckCircle, X } from 'lucide-react';
-import { getSupportTickets, subscribeToSupportTickets } from '../../services/supportService';
+import { getSupportTickets, subscribeToSupportTickets, updateSupportTicketStatus } from '../../services/supportService';
 
 export default function SupportTicketsAdmin() {
   const [tickets, setTickets] = useState([]);
@@ -39,6 +39,19 @@ export default function SupportTicketsAdmin() {
     alert(`Reply sent to ${activeTicket.tenant}`);
     setReplyMessage('');
     setActiveTicket(null);
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    // Optimistic update
+    setTickets(tickets.map(t => t.id === id ? { ...t, status: newStatus } : t));
+    await updateSupportTicketStatus(id, newStatus);
+  };
+
+  const handleMarkResolved = async () => {
+    if (activeTicket) {
+      await handleStatusChange(activeTicket.id, 'Resolved');
+      setActiveTicket(null); // close modal
+    }
   };
 
   return (
@@ -92,14 +105,24 @@ export default function SupportTicketsAdmin() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex flex-col gap-1">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold w-max ${
-                        ticket.status === 'Open' ? 'bg-sky-100 text-sky-800' :
-                        ticket.status === 'In Progress' ? 'bg-amber-100 text-amber-800' :
-                        'bg-green-100 text-green-800'
-                      }`}>
-                        {ticket.status}
-                      </span>
-                      <span className="text-slate-500 font-semibold text-xs mt-1">Open: {ticket.timeOpen}</span>
+                      <select 
+                        value={ticket.status}
+                        onChange={(e) => {
+                          e.stopPropagation(); // prevent modal opening
+                          handleStatusChange(ticket.id, e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className={`inline-flex items-center px-2 py-1 rounded text-[11px] font-bold w-max outline-none cursor-pointer border-r-4 border-transparent ${
+                          ticket.status === 'Open' ? 'bg-sky-100 text-sky-800' :
+                          ticket.status === 'In Progress' ? 'bg-amber-100 text-amber-800' :
+                          'bg-green-100 text-green-800'
+                        }`}
+                      >
+                        <option value="Open" className="bg-white text-slate-800">Open</option>
+                        <option value="In Progress" className="bg-white text-slate-800">In Progress</option>
+                        <option value="Resolved" className="bg-white text-slate-800">Resolved</option>
+                      </select>
+                      <span className="text-slate-500 font-semibold text-xs mt-1">Open: {ticket.timeOpen || ticket.time}</span>
                     </div>
                   </td>
                   <td className="py-4 px-6 text-right">
@@ -132,9 +155,11 @@ export default function SupportTicketsAdmin() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="px-4 py-2 bg-green-100 text-green-800 rounded-lg font-bold text-sm hover:bg-green-200 transition-colors">
-                  Mark Resolved
-                </button>
+                {activeTicket.status !== 'Resolved' && (
+                  <button onClick={handleMarkResolved} className="px-4 py-2 bg-green-100 text-green-800 rounded-lg font-bold text-sm hover:bg-green-200 transition-colors">
+                    Mark Resolved
+                  </button>
+                )}
                 <button onClick={() => setActiveTicket(null)} className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">
                   <X size={20} />
                 </button>
