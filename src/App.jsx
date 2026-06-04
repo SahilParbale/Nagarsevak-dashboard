@@ -4,12 +4,12 @@ import CompanyPortal from './pages/CompanyPortal';
 
 function App() {
   const [currentApp, setCurrentApp] = useState(() => {
-    return localStorage.getItem('currentApp') || 'portal';
+    return sessionStorage.getItem('currentApp') || 'portal';
   });
 
   const handleSetCurrentApp = (appId) => {
     setCurrentApp(appId);
-    localStorage.setItem('currentApp', appId);
+    sessionStorage.setItem('currentApp', appId);
   };
 
   if (currentApp === 'portal') {

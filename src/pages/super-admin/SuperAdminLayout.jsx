@@ -16,12 +16,12 @@ import {
 
 export default function SuperAdminLayout({ onBackToPortal }) {
   const [activeTab, setActiveTab] = useState(() => {
-    return localStorage.getItem('activeAdminTab') || 'dashboard';
+    return sessionStorage.getItem('activeAdminTab') || 'dashboard';
   });
 
   const handleSetTab = (tabId) => {
     setActiveTab(tabId);
-    localStorage.setItem('activeAdminTab', tabId);
+    sessionStorage.setItem('activeAdminTab', tabId);
   };
 
   const menuItems = [
