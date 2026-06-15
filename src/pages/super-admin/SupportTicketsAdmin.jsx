@@ -139,8 +139,8 @@ export default function SupportTicketsAdmin() {
                     onChange={(e) => setFilterStatus(e.target.value)}
                     options={[
                       { value: 'All', label: 'All Statuses' },
-                      { value: 'Open', label: 'Open' },
-                      { value: 'In Progress', label: 'In Progress' },
+                      { value: 'Pending', label: 'Pending' },
+                      { value: 'InProgress', label: 'In Progress' },
                       { value: 'Resolved', label: 'Resolved' }
                     ]}
                     className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm transition-all font-medium text-slate-800 hover:border-sky-300"
@@ -191,7 +191,7 @@ export default function SupportTicketsAdmin() {
                     <td className="py-4 px-6">
                       <div className="font-bold text-slate-900 text-sm">{ticket.issue}</div>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-slate-500 text-xs">{(ticket.id || '').split('-')[0]} • {ticket.time}</span>
+                        <span className="text-slate-500 text-xs">{(String(ticket.id) || '').split('-')[0]} • {ticket.time}</span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                           ticket.priority === 'High' ? 'border-red-200 text-red-600 bg-red-50' :
                           ticket.priority === 'Medium' ? 'border-amber-200 text-amber-600 bg-amber-50' : 'border-sky-200 text-sky-600 bg-sky-50'
@@ -209,17 +209,17 @@ export default function SupportTicketsAdmin() {
                         value={ticket.status}
                         onChange={(e) => handleStatusChange(ticket.id, e.target.value)}
                         options={[
-                          { value: 'Open', label: 'Open' },
-                          { value: 'In Progress', label: 'In Progress' },
+                          { value: 'Pending', label: 'Pending' },
+                          { value: 'InProgress', label: 'In Progress' },
                           { value: 'Resolved', label: 'Resolved' }
                         ]}
                         className={`inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[11px] font-bold w-max outline-none cursor-pointer border-transparent ${
-                          ticket.status === 'Open' ? 'bg-sky-100 text-sky-800 hover:bg-sky-200' :
-                          ticket.status === 'In Progress' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
+                          ticket.status === 'Pending' ? 'bg-sky-100 text-sky-800 hover:bg-sky-200' :
+                          ticket.status === 'InProgress' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
                           'bg-green-100 text-green-800 hover:bg-green-200'
                         }`}
                       />
-                        <span className="text-slate-500 font-semibold text-xs mt-1">Open: {ticket.timeOpen || ticket.time}</span>
+                        <span className="text-slate-500 font-semibold text-xs mt-1">Pending: {ticket.timeOpen || ticket.time}</span>
                       </div>
                     </td>
                     <td className="py-4 px-6 text-right">
@@ -278,12 +278,12 @@ export default function SupportTicketsAdmin() {
                   T
                 </div>
                 <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                  <p className="text-sm text-slate-800">{activeTicket.issue}</p>
+                  <p className="text-sm text-slate-800">{activeTicket.description || activeTicket.issue}</p>
                   <p className="text-slate-400 text-xs mt-2 font-semibold">{activeTicket.time}</p>
                 </div>
               </div>
 
-              {activeTicket.status === 'In Progress' && (
+              {activeTicket.status === 'InProgress' && (
                 <div className="flex gap-4 max-w-2xl ml-auto flex-row-reverse">
                   <div className="w-10 h-10 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
                     SA
