@@ -38,7 +38,7 @@ export default function Login({ onLogin, onBack }) {
             </div>
             <div className="text-left">
               <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Codecraft</h1>
-              <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Innovations</h1>
+              <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Solutions</h1>
             </div>
           </div>
           

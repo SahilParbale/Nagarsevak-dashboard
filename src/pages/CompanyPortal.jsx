@@ -42,7 +42,7 @@ export default function CompanyPortal({ onSelectApp, onLogout }) {
             </div>
             <div className="text-left">
               <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Codecraft</h1>
-              <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Innovations</h1>
+              <h1 className="text-4xl font-serif font-bold tracking-tight text-white leading-none">Solutions</h1>
             </div>
           </div>
           
@@ -92,7 +92,7 @@ export default function CompanyPortal({ onSelectApp, onLogout }) {
           <div className="w-20 h-20 bg-sky-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-sky-600/30 text-white">
             <Network size={36} />
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Codecraft Innovations</h2>
+          <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Codecraft Solutions</h2>
           <p className="text-slate-500 font-medium mb-12 text-lg">Select a project dashboard to continue</p>
           
           {/* Projects Grid */}
