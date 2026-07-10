@@ -1,7 +1,7 @@
 import React from 'react';
-import { Building, TrendingUp, Users, ShieldAlert, Lock, Globe, Network } from 'lucide-react';
+import { Building, TrendingUp, Users, ShieldAlert, Lock, Globe, Network, LogOut } from 'lucide-react';
 
-export default function CompanyPortal({ onSelectApp }) {
+export default function CompanyPortal({ onSelectApp, onLogout }) {
   const projects = [
     {
       id: 'nagarsevak',
@@ -74,9 +74,19 @@ export default function CompanyPortal({ onSelectApp }) {
       </div>
 
       {/* Right Panel - Login/Selection */}
-      <div className="w-full lg:w-[55%] bg-[#F9FAFB] flex flex-col items-center justify-center p-8 relative overflow-y-auto">
+      <div className="w-full lg:w-[55%] bg-[#F9FAFB] flex flex-col items-center justify-center p-6 sm:p-8 relative overflow-y-auto">
 
-        <div className="w-full max-w-lg flex flex-col items-center mt-12">
+        {onLogout && (
+          <button 
+            onClick={onLogout}
+            className="absolute top-4 right-4 sm:top-8 sm:right-8 flex items-center gap-2 text-slate-500 hover:text-red-600 transition-colors font-medium text-sm"
+          >
+            <LogOut size={16} />
+            Sign Out
+          </button>
+        )}
+
+        <div className="w-full max-w-lg flex flex-col items-center mt-16 sm:mt-12">
           
           {/* Top Logo & Heading */}
           <div className="w-20 h-20 bg-sky-600 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-sky-600/30 text-white">

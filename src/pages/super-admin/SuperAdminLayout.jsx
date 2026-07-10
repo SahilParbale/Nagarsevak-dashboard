@@ -11,10 +11,14 @@ import {
   CreditCard,
   Building,
   Bell,
-  ArrowLeft
+  ArrowLeft,
+  LogOut,
+  Menu,
+  X
 } from 'lucide-react';
 
-export default function SuperAdminLayout({ onBackToPortal }) {
+export default function SuperAdminLayout({ onBackToPortal, onLogout }) {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(() => {
     return sessionStorage.getItem('activeAdminTab') || 'dashboard';
   });
@@ -22,6 +26,7 @@ export default function SuperAdminLayout({ onBackToPortal }) {
   const handleSetTab = (tabId) => {
     setActiveTab(tabId);
     sessionStorage.setItem('activeAdminTab', tabId);
+    setIsMobileSidebarOpen(false);
   };
 
   const menuItems = [
@@ -50,13 +55,29 @@ export default function SuperAdminLayout({ onBackToPortal }) {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 relative z-50">
       
+      {/* Sidebar Overlay for Mobile */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 lg:hidden"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-sky-900 text-sky-100 flex flex-col border-r border-sky-800 shadow-xl z-20">
-        <div className="h-20 flex items-center px-6 border-b border-sky-800 bg-sky-950">
+      <aside className={`w-64 bg-sky-900 text-sky-100 flex flex-col border-r border-sky-800 shadow-xl z-40 fixed lg:static inset-y-0 left-0 transform transition-transform duration-300 lg:translate-x-0 ${
+        isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="h-20 flex items-center justify-between px-6 border-b border-sky-800 bg-sky-950">
           <div className="flex items-center gap-3 text-white">
             <Building size={24} className="text-sky-300" />
             <span className="font-bold text-lg tracking-wide">Owner Portal</span>
           </div>
+          <button 
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className="p-1.5 text-sky-300 hover:text-white hover:bg-sky-800 rounded-lg lg:hidden transition-colors"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <nav className="flex-1 py-4 space-y-2 px-4">
@@ -82,7 +103,7 @@ export default function SuperAdminLayout({ onBackToPortal }) {
         </nav>
 
         {onBackToPortal && (
-          <div className="p-4 mt-auto border-t border-sky-800">
+          <div className="p-4 mt-auto border-t border-sky-800 space-y-2">
             <button 
               onClick={onBackToPortal}
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-sky-950 text-sky-300 rounded-lg text-sm font-bold hover:bg-sky-900 hover:text-white transition-colors"
@@ -90,6 +111,15 @@ export default function SuperAdminLayout({ onBackToPortal }) {
               <ArrowLeft size={16} />
               Back to Portal
             </button>
+            {onLogout && (
+              <button 
+                onClick={onLogout}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-950/40 text-red-400 rounded-lg text-sm font-bold hover:bg-red-900 hover:text-white transition-colors"
+              >
+                <LogOut size={16} />
+                Sign Out
+              </button>
+            )}
           </div>
         )}
       </aside>
@@ -98,7 +128,16 @@ export default function SuperAdminLayout({ onBackToPortal }) {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
         <header className="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 shadow-sm">
-          <h1 className="text-lg font-bold text-slate-800">{getPageTitle()}</h1>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="p-2 -ml-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 lg:hidden transition-colors"
+              title="Open Menu"
+            >
+              <Menu size={24} />
+            </button>
+            <h1 className="text-lg font-bold text-slate-800">{getPageTitle()}</h1>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-slate-500">Super Admin (Owner)</span>
             <div className="w-10 h-10 bg-sky-600 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md">
