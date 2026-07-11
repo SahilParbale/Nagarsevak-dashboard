@@ -7,7 +7,7 @@ export default function Login({ onLogin, onBack }) {
   const [error, setError] = useState('');
 
   const demoEmail = 'info@codecraft.net.in';
-  const demoPassword = 'Krishnaniti@123';
+  const demoPassword = 'Krishnaniti@#Codecraft2026';
 
   const handleSubmit = (e) => {
     e.preventDefault();
